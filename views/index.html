@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <style>
+      input {
+        margin: 5px;
+        width: 200px;
+        border-radius: 30px;
+        height: 40px;
+        text-align: center;
+      }
+      input::placeholder {
+        text-align: center;
+        padding-top: 30px;
+        font-weight: bold;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+      input[type="button"] {
+        background-color: aqua;
+        border-radius: 30px;
+        font-size: 24px;
+        width: 200px;
+      }
+    </style>
+    <script>
+      function Guardar() {
+        // WARNING: For POST requests, body is set to null by browsers.
+        let cedula = document.getElementById("cedula").value;
+        let nombre = document.getElementById("nombre").value;
+        let edad = document.getElementById("edad").value;
+        let estadoCivil = document.getElementById("estadoCivil").value;
+        let telefono = document.getElementById("telefono").value;
+
+        let data =
+          "nombre=" +
+          nombre +
+          "&edad=" +
+          edad +
+          "&cedula=" +
+          cedula +
+          "&estadoCivil=" +
+          estadoCivil +
+          "&telefono=" +
+          telefono +
+          "";
+        console.log(data);
+        localStorage.setItem("Nombre", nombre);
+        localStorage.setItem("Edad", edad);
+        localStorage.setItem("Cedula", cedula);
+        localStorage.setItem("Estado Civil", estadoCivil);
+        localStorage.setItem("Telefono", telefono);
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4) {
+            console.log(this.responseText);
+          }
+        });
+
+        xhr.open("POST", "http://localhost:3000/usuarios/Guardar");
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
+
+        xhr.send(data);
+      }
+
+      function Listar() {
+        // WARNING: For POST requests, body is set to null by browsers.
+        let nombre = localStorage.getItem("Nombre");
+        let edad = localStorage.getItem("Edad");
+        let cedula = localStorage.getItem("Cedula");
+        let estado = localStorage.getItem("Estado Civil");
+        let telefono = localStorage.getItem("Telefono");
+        var data = { nombre, edad, cedula, estado, telefono };
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4) {
+            console.log(this.responseText);
+          }
+        });
+
+        xhr.open("POST", "http://localhost:3000/usuarios/Listar");
+
+        xhr.send(data);
+      }
+
+      function Actualizar() {
+        let cedula = document.getElementById("cedula").value;
+        let edad = document.getElementById("edad").value;
+        var data = { edad, cedula };
+        console.log(data, "marca data");
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4) {
+            console.log(this.responseText);
+          }
+        });
+
+        xhr.open("POST", "http://localhost:3000/usuarios/Actualizar");
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
+
+        xhr.send(data);
+      }
+
+      function Borrar() {
+      // WARNING: For POST requests, body is set to null by browsers.
+      let cedula = document.getElementById("cedula").value;
+        let nombre = document.getElementById("nombre").value;
+        let edad = document.getElementById("edad").value;
+        let estadoCivil = document.getElementById("estadoCivil").value;
+        let telefono = document.getElementById("telefono").value;
+
+        let data =
+          "nombre=" +
+          nombre +
+          "&edad=" +
+          edad +
+          "&cedula=" +
+          cedula +
+          "&estadoCivil=" +
+          estadoCivil +
+          "&telefono=" +
+          telefono +
+          "";
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("POST", "http://localhost:3000/usuarios/Borrar");
+xhr.setRequestHeader("sec-ch-ua", "\"Chromium\";v=\"110\", \"Not A(Brand\";v=\"24\", \"Google Chrome\";v=\"110\"");
+xhr.setRequestHeader("sec-ch-ua-platform", "\"macOS\"");
+xhr.setRequestHeader("Referer", "http://127.0.0.1:5500/");
+xhr.setRequestHeader("sec-ch-ua-mobile", "?0");
+xhr.setRequestHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36");
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+xhr.send(data);
+      }
+    </script>
+    <input type="number" id="cedula" placeholder="cedula" />
+    <br />
+    <input type="text" id="nombre" placeholder="nombre" />
+    <br />
+    <input type="number" id="edad" placeholder="edad" />
+    <br />
+    <input type="number" id="telefono" placeholder="telefono" />
+    <br />
+    <input type="text" name="" id="estadoCivil" placeholder="Estado Civil" />
+    <br />
+    <input type="button" onclick="Guardar()" value="Guardar" />
+    <br />
+    <input type="text" onclick="Listar()" value="Listar" />
+    <br />
+    <input type="text" onclick="Actualizar()" value="Actualizar" />
+    <br />
+    <input type="text" onclick="Borrar()" value="Borrar" />
+  </body>
+</html>
